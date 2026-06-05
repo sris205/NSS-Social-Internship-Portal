@@ -17,7 +17,7 @@ const createSubmission = async(req,res)=>{
         });
 
         if(existingSubmission){
-            return res.json({
+            return res.status(400).json({
                 success:false,
                 message:"Day already submitted"
             });

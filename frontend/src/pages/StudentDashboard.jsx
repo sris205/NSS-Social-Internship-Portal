@@ -104,146 +104,180 @@ function StudentDashboard(){
     }
 
     return(
-        <div>
-        <div className="bg-white shadow-md rounded-xl p-6 mb-6">
-            <h1 className="text-4xl font-bold text-blue-600">
-                Student Dashboard</h1>
+      
+     <div className="min-h-screen bg-gray-100 p-6">
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl shadow-xl p-8 mb-6">
+        <h1 className="text-4xl font-bold">
+            🎓 Student Dashboard
+        </h1>
 
-            <p className="text-gray-500 mt-1">
-               Track your NSS Internship Progress
-                </p> 
-
-             </div>      
-           <div className="bg-white p-6 rounded-xl shadow-md mb-6">
-            <h1 className="text-4xl font-bold text-blue-600">
-                Welcome {user?.name}
-            </h1>
-
-            {/* <p className="text-gray-600">
-                {user?.email}
-            </p> */}
-
-                <span className="bg-green-100 text-green-700 px-4 py-2 rounded-full mt-3 inline-block">
-                   Application Approved
-                </span>
-            
-
-            <p className="mt-4 font-semibold text-xl text-blue-600">
-                Completed: {submissions.length}/10 Days
-            </p>
-            </div>
-
-            <h3 className="text-xl font-bold mb-4">
-                Completed Days</h3>
-                <div className="grid grid-cols-3 gap-4">
-            {
-                submissions.map((submission)=>(
-                    <div
-                        keys={submission._id}
-                        className="bg-white shadow-md rounded-xl p-4 mb-4">
-                     <h3 className="text-lg font-bold">
-                        Day{submission.day}
-                            <span
-                               className={
-                                  submission.status === "verified"
-                                  ? "bg-green-100 text-green-700 px-3 py-1 rounded-full ml-2"
-                                  : "bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full ml-2"
-                               }
-                               >
-                                {submission.status}
-                               </span>
-                     </h3>
-                     <p className="mt-3 text-sm">
-                        Report:{submission.report}</p>
-                     <a 
-                        href={submission.photo}
-                        target="blank"
-                        rel="noreferrer" 
-                        className="text-blue-600 font-semibold block mt-2"
-                        >
-                            View Photo   
-                        </a>
-                     </div>
-                ))
-            }
-            </div>
-            
-
-            <h3 className="text-xl font-bold mb-4">
-                Pending Days</h3>
-                <div className="grid grid-cols-3 gap-4">
-            {
-                pendingDays.map((day)=>(
-                    <div
-                     key={day}
-                     className="bg-white rounded-xl shadow-md p-4 text-center"
-                     >
-                     <h3 className="text-lg font-bold">  
-                        Day{day}
-                    </h3>
-
-                    <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
-                        Not Submitted
-                      </span>
-                    </div>    
-                ))
-            }
-            </div>
-
-            {
-                !profileExists?(
-                    <button
-                       onClick={()=>navigate("/profile")}
-                       className="bg-blue-500 text-white px-4 py-2 rounded mt-4">
-                        Complete Profile
-                       </button>
-                ): applicationExists? (
-
-                        applicationStatus==="approved"?(
-
-                            <div>
-                              <h3>Application Approved</h3>
-                              {
-                                submissions.length === 10 ? (
-
-                                    <p>Internship Completed</p>
-                                ):(    
-                              <button
-                                onClick={()=>
-                                    navigate(`/submit-day/${nextDay}`)
-                                }
-                                 className="bg-green-500 text-white px-4 py-2 rounded">
-                                    Submit Day {nextDay}
-                                 </button>
-                                )
-                               }    
-                             
-                            </div>
-                            
-                        ):(    
-
-                    <div className="mt-4">
-                        <h3>Application Submitted</h3>
-                        <p>Status:Pending Approval</p>
-                    </div>  
-                        )
-                      
-                ):(      
-                    <button
-                       
-                       className="bg-green-500 text-white px-4 py-2 rounded mt-4">
-                        Apply for Internship
-                       </button>
-                )
-            }
-
-            <button
-               onClick={handleLogout}
-               className="bg-red-500 text-white px-4 py-2 rounded mt-4">
-                Logout
-               </button>
+        <p className="text-blue-100 mt-2 text-lg">
+            Track your NSS Internship Progress
+        </p>
         </div>
-    );
+
+        <div className="bg-white p-8 rounded-2xl shadow-xl mb-8">
+        <h1 className="text-4xl font-bold text-blue-600">
+            Welcome {user?.name}
+        </h1>
+
+        <span className="bg-green-100 text-green-700 px-4 py-2 rounded-full mt-4 inline-block">
+            Application Approved
+        </span>
+
+        <p className="mt-4 font-semibold text-xl text-blue-600">
+            Completed: {submissions.length}/10 Days
+        </p>
+
+        <div className="w-full bg-gray-200 rounded-full h-4 mt-4">
+            <div
+            className="bg-green-500 h-4 rounded-full"
+            style={{
+                width: `${(submissions.length / 10) * 100}%`,
+            }}
+            />
+        </div>
+        </div>
+
+        <h3 className="text-3xl font-bold mb-6 text-gray-800">
+        📅 Submitted Days
+        </h3>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {submissions.map((submission) => (
+            <div
+            key={submission._id}
+            className="
+                bg-white
+                rounded-2xl
+                shadow-lg
+                hover:shadow-2xl
+                hover:-translate-y-1
+                transition
+                duration-300
+                p-5
+            "
+            >
+            <h3 className="text-xl font-bold">
+                Day {submission.day}
+
+                <span
+                className={
+                    submission.status === "verified"
+                    ? "bg-green-100 text-green-700 px-3 py-1 rounded-full ml-3 text-sm"
+                    : "bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full ml-3 text-sm"
+                }
+                >
+                {submission.status}
+                </span>
+            </h3>
+
+            <p className="mt-4 text-gray-700">
+                {submission.report}
+            </p>
+
+            <a
+                href={submission.photo}
+                target="_blank"
+                rel="noreferrer"
+                className="
+                inline-block
+                mt-4
+                bg-blue-600
+                text-white
+                px-4
+                py-2
+                rounded-lg
+                hover:bg-blue-700
+                "
+            >
+                📷 View Photo
+            </a>
+            </div>
+        ))}
+        </div>
+
+        <h3 className="text-3xl font-bold mt-12 mb-6 text-gray-800">
+        ⏳ Pending Days
+        </h3>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {pendingDays.map((day) => (
+            <div
+            key={day}
+            className="
+                bg-white
+                rounded-2xl
+                shadow-md
+                hover:shadow-lg
+                transition
+                p-6
+                text-center
+            "
+            >
+            <h3 className="text-2xl font-bold">
+                Day {day}
+            </h3>
+
+            <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm inline-block mt-3">
+                Not Submitted
+            </span>
+            </div>
+        ))}
+        </div>
+
+        {!profileExists ? (
+        <button
+            onClick={() => navigate("/profile")}
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg mt-8"
+        >
+            Complete Profile
+        </button>
+        ) : applicationExists ? (
+        applicationStatus === "approved" ? (
+            <div>
+            {submissions.length === 10 ? (
+                <div className="mt-8 text-green-600 text-2xl font-bold">
+                🎉 Internship Completed
+                </div>
+            ) : (
+                <button
+                onClick={() =>
+                    navigate(`/submit-day/${nextDay}`)
+                }
+                className="
+                    fixed
+                    bottom-8
+                    right-8
+                    bg-green-600
+                    hover:bg-green-700
+                    text-white
+                    px-6
+                    py-4
+                    rounded-full
+                    shadow-2xl
+                    font-bold
+                    text-lg
+                "
+                >
+                + Submit Day {nextDay}
+                </button>
+            )}
+            </div>
+        ) : (
+            <div className="mt-8 bg-yellow-100 text-yellow-700 p-4 rounded-xl">
+            Application Submitted — Pending Approval
+            </div>
+        )
+        ) : (
+        <button className="bg-green-600 text-white px-6 py-3 rounded-lg mt-8">
+            Apply for Internship
+        </button>
+        )}
+
+    </div>
+);
+    
 }
 
 export default StudentDashboard;
