@@ -105,51 +105,90 @@ function StudentDashboard(){
 
     return(
         <div>
-            <h1>Student Dashboard</h1>
+        <div className="bg-white shadow-md rounded-xl p-6 mb-6">
+            <h1 className="text-4xl font-bold text-blue-600">
+                Student Dashboard</h1>
 
-            <h2>
+            <p className="text-gray-500 mt-1">
+               Track your NSS Internship Progress
+                </p> 
+
+             </div>      
+           <div className="bg-white p-6 rounded-xl shadow-md mb-6">
+            <h1 className="text-4xl font-bold text-blue-600">
                 Welcome {user?.name}
-            </h2>
+            </h1>
 
-            <p>
+            {/* <p className="text-gray-600">
                 {user?.email}
-            </p>
+            </p> */}
 
-            <p>
+                <span className="bg-green-100 text-green-700 px-4 py-2 rounded-full mt-3 inline-block">
+                   Application Approved
+                </span>
+            
+
+            <p className="mt-4 font-semibold text-xl text-blue-600">
                 Completed: {submissions.length}/10 Days
             </p>
+            </div>
 
-            <h3>Completed Days</h3>
+            <h3 className="text-xl font-bold mb-4">
+                Completed Days</h3>
+                <div className="grid grid-cols-3 gap-4">
             {
                 submissions.map((submission)=>(
                     <div
                         keys={submission._id}
-                        className="border p-2 my-2">
-                     <p>   Day {submission.day}-
-                        {submission.status==="verified" ? "Verified" 
-                        : submission.status==="not verified" ? 
-                        "Not Verified" : "Pending"}
-
-                     </p>
-                     <p>Report:{submission.report}</p>
+                        className="bg-white shadow-md rounded-xl p-4 mb-4">
+                     <h3 className="text-lg font-bold">
+                        Day{submission.day}
+                            <span
+                               className={
+                                  submission.status === "verified"
+                                  ? "bg-green-100 text-green-700 px-3 py-1 rounded-full ml-2"
+                                  : "bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full ml-2"
+                               }
+                               >
+                                {submission.status}
+                               </span>
+                     </h3>
+                     <p className="mt-3 text-sm">
+                        Report:{submission.report}</p>
                      <a 
                         href={submission.photo}
                         target="blank"
-                        rel="noreferrer" >
+                        rel="noreferrer" 
+                        className="text-blue-600 font-semibold block mt-2"
+                        >
                             View Photo   
                         </a>
                      </div>
                 ))
             }
+            </div>
+            
 
-            <h3>Pending Days</h3>
+            <h3 className="text-xl font-bold mb-4">
+                Pending Days</h3>
+                <div className="grid grid-cols-3 gap-4">
             {
                 pendingDays.map((day)=>(
-                    <p key={day}>
+                    <div
+                     key={day}
+                     className="bg-white rounded-xl shadow-md p-4 text-center"
+                     >
+                     <h3 className="text-lg font-bold">  
                         Day{day}
-                    </p>
+                    </h3>
+
+                    <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                        Not Submitted
+                      </span>
+                    </div>    
                 ))
             }
+            </div>
 
             {
                 !profileExists?(
