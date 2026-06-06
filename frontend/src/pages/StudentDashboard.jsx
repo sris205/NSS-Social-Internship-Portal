@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import jsPDF from "jspdf";
+
 
 
 function StudentDashboard(){
 
-    const[profileExists, setProfileExists] = useState("false");
-    const[applicationExists, setApplicationExists] = useState("false");
+    const[profileExists, setProfileExists] = useState(false);
+    const[applicationExists, setApplicationExists] = useState(false);
     const[applicationStatus, setApplicationStatus] = useState("");
     const[submissions,setSubmissions] = useState([]);
 
@@ -24,6 +26,7 @@ function StudentDashboard(){
                 setProfileExists(true);
             }
         }catch(error){
+            setProfileExists(false);
             console.log(error);
         }
     };
@@ -48,6 +51,8 @@ function StudentDashboard(){
             }
 
         }catch(error){
+            setApplicationExists(false);
+            setApplicationStatus("");
             console.log(error);
         }
     };
@@ -72,6 +77,52 @@ function StudentDashboard(){
         }catch(error){
             console.log(error);
         }
+    };
+
+    const generateCertificate = ()=>{
+
+        const doc = new jsPDF();
+
+        doc.setFontSize(24);
+        doc.text("National Service Scheme",35, 30);
+
+        doc.setFontSize(20);
+        doc.text("CERTIFICATE OF COMPLETION", 30, 50);
+
+        doc.setFontSize(22);
+        doc.text(
+            `This is certify that`,
+            70,
+            80
+        );
+
+        doc.setFontSize(22);
+        doc.text(
+            user.name.toUpperCase(),
+            60,
+            100
+        );
+
+        doc.setFontSize(14);
+        doc.text(
+            "has successfully completed",
+            55,
+            120
+        );
+
+        doc.text(
+            `Date: ${new Date().toLocaleDateString()}`,
+            20,
+            170
+        );
+
+        doc.text(
+            "Program Coordinator",
+            130,
+            170
+        );
+
+        doc.save("NSS_Certificate.pdf");
     };
 
        useEffect(() => {
@@ -99,9 +150,16 @@ function StudentDashboard(){
         );
          
         if(!completed){
-            pendingDays.push(day);''
+            pendingDays.push(day);
         }
     }
+
+    const allVerified = 
+            submissions.length === 10 &&
+            submission.every(
+                (submission)=>
+                    submission.status === "verified"
+            );
 
     return(
       
@@ -120,10 +178,6 @@ function StudentDashboard(){
         <h1 className="text-4xl font-bold text-blue-600">
             Welcome {user?.name}
         </h1>
-
-        <span className="bg-green-100 text-green-700 px-4 py-2 rounded-full mt-4 inline-block">
-            Application Approved
-        </span>
 
         <p className="mt-4 font-semibold text-xl text-blue-600">
             Completed: {submissions.length}/10 Days
@@ -236,11 +290,25 @@ function StudentDashboard(){
         ) : applicationExists ? (
         applicationStatus === "approved" ? (
             <div>
-            {submissions.length === 10 ? (
-                <div className="mt-8 text-green-600 text-2xl font-bold">
-                🎉 Internship Completed
-                </div>
-            ) : (
+                {
+                allVerified ? (
+                   <button
+                     onClick={generateCertificate}
+                     className="
+                        bg-purple-600
+                        hover:bg-purple-700
+                        text-white
+                        px-6
+                        py-3
+                        rounded-xl
+                        font-bold
+                        mt-6
+                        "
+                    >
+                       Download Certificate 
+                        </button>    
+                ):(
+                    
                 <button
                 onClick={() =>
                     navigate(`/submit-day/${nextDay}`)
@@ -263,14 +331,18 @@ function StudentDashboard(){
                 + Submit Day {nextDay}
                 </button>
             )}
+        
             </div>
+           
         ) : (
             <div className="mt-8 bg-yellow-100 text-yellow-700 p-4 rounded-xl">
             Application Submitted — Pending Approval
             </div>
         )
         ) : (
-        <button className="bg-green-600 text-white px-6 py-3 rounded-lg mt-8">
+        <button 
+            onClick={()=> navigate("/apply")}
+            className="bg-green-600 text-white px-6 py-3 rounded-lg mt-8">
             Apply for Internship
         </button>
         )}

@@ -11,6 +11,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import ProfilePage from "./pages/ProfilePage";
 import DailySubmission from "./pages/DailySubmission";
+import Application from "./pages/Application";
 
 function App() {
   
@@ -63,6 +64,11 @@ function App() {
           path="/submit-day/:day"
           element={<DailySubmission/>}  
          />
+
+      <Route
+         path="/apply"
+         element={<Application/>}   
+        /> 
           
     </Routes>
     </BrowserRouter>
