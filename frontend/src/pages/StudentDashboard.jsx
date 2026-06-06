@@ -79,6 +79,17 @@ function StudentDashboard(){
         }
     };
 
+        const getBase64Image = async (url) => {
+        const response = await fetch(url);
+        const blob = await response.blob();
+
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.readAsDataURL(blob);
+        });
+    };
+
     const generateCertificate = ()=>{
 
         const doc = new jsPDF();
@@ -125,6 +136,73 @@ function StudentDashboard(){
         doc.save("NSS_Certificate.pdf");
     };
 
+    const generateReport = async()=>{
+         
+        const doc = new jsPDF();
+
+        doc.setFontSize(20);
+        doc.text("NSS INTERNSHIP REPORT", 20, 20);
+
+        doc.setFontSize(12);
+        doc.text(`Student Name: ${user.name}`, 20, 35);
+
+        let y = 50;
+
+        for (const submission of submissions) {
+
+        doc.setFontSize(14);
+        doc.text(
+            `Day ${submission.day}`,
+            20,
+            y
+        );
+
+        y += 10;
+
+        const imageData = await getBase64Image(
+            submission.photo
+        );
+
+        doc.addImage(
+            imageData,
+            "JPEG",
+            20,
+            y,
+            60,
+            40
+        );
+
+        y += 50;
+
+        doc.setFontSize(11);
+
+        doc.text(
+            `Report: ${submission.report}`,
+            20,
+            y
+        );
+
+        y += 10;
+
+        doc.text(
+            `Status: ${submission.status}`,
+            20,
+            y
+        );
+
+        y += 20;
+
+        if (y > 240) {
+            doc.addPage();
+            y = 20;
+        }
+    }
+
+        doc.save(
+            `${user.name}_Internship_Report.pdf`
+        );
+    };
+
        useEffect(() => {
         checkProfile();
         checkApplication();
@@ -156,7 +234,7 @@ function StudentDashboard(){
 
     const allVerified = 
             submissions.length === 10 &&
-            submission.every(
+            submissions.every(
                 (submission)=>
                     submission.status === "verified"
             );
@@ -292,6 +370,7 @@ function StudentDashboard(){
             <div>
                 {
                 allVerified ? (
+                    <>
                    <button
                      onClick={generateCertificate}
                      className="
@@ -307,6 +386,24 @@ function StudentDashboard(){
                     >
                        Download Certificate 
                         </button>    
+
+                       <button
+                         onClick={generateReport} 
+                         className="
+                          bg-blue-600
+                          hover:bg-blue-700
+                          text-white
+                          px-6
+                          py-3
+                          rounded-xl
+                          font-bold
+                          mt-6
+                          ml-3
+                         "
+                         >
+                            Download Internship Report
+                         </button>
+                    </>     
                 ):(
                     
                 <button

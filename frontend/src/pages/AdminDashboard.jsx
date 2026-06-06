@@ -40,7 +40,7 @@ function AdminDashboard(){
            }
     };
 
-    const verifySubmission = async(submission)=>{
+    const verifySubmission = async(submissionId)=>{
         try{
 
             const response = await axios.put(
@@ -243,9 +243,10 @@ function AdminDashboard(){
                 <div className="flex gap-3 mt-5">
 
                     <button
-                    onClick={() =>
+                    onClick={() =>{
+
                         verifySubmission(submission._id)
-                    }
+                    }}
                     className="
                         bg-green-600
                         hover:bg-green-700
