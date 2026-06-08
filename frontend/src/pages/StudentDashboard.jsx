@@ -11,6 +11,7 @@ function StudentDashboard(){
     const[applicationExists, setApplicationExists] = useState(false);
     const[applicationStatus, setApplicationStatus] = useState("");
     const[submissions,setSubmissions] = useState([]);
+    const[startDate, setStartDate] = useState(null);
 
     const checkProfile = async()=>{
         try{
@@ -47,6 +48,10 @@ function StudentDashboard(){
 
                 setApplicationStatus(
                     response.data.application.status
+                );
+
+                setStartDate(
+                    response.data.application.startDate
                 );
             }
 
@@ -219,6 +224,27 @@ function StudentDashboard(){
         navigate("/student-login");
     };
 
+    let currentDay = 0;
+
+    if(startDate){
+
+        const internshipStart = 
+                new Date(startDate);
+            
+        const today = new Date();
+        
+        const diffDays = Math.floor(
+            (
+                today-internshipStart
+            )/
+            (
+                1000*60*60*24
+            )
+        );
+
+        currentDay = diffDays+1;
+    }
+
     const nextDay = submissions.length + 1;
     const pendingDays = [];
     for(let day=1;day<=10;day++){
@@ -261,6 +287,7 @@ function StudentDashboard(){
             Completed: {submissions.length}/10 Days
         </p>
 
+      
         <div className="w-full bg-gray-200 rounded-full h-4 mt-4">
             <div
             className="bg-green-500 h-4 rounded-full"

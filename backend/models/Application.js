@@ -26,6 +26,11 @@ const applicationSchema = new mongoose.Schema({
     status:{
        type:String,
        default:"pending"
+    },
+
+    startDate:{
+        type:Date,
+        default:null
     }
 });
 

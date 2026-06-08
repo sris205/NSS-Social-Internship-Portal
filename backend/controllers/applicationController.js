@@ -93,10 +93,16 @@ const approveApplication = async(req,res)=>{
 
         const { applicationId } = req.params;
 
+        const startDate = new Date();
+        startDate.setDate(
+            startDate.getDate()+1
+        );
+
         const application = await Application.findByIdAndUpdate(
             applicationId,
             {
-                status:"approved"
+                status:"approved",
+                startDate:startDate
             },
             {
                 new:true
