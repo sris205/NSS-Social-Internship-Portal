@@ -1,6 +1,7 @@
 const DailySubmission = require("../models/DailySubmission");
 const cloudinary = require("../config/cloudinary");
 const streamifier = require("streamifier");
+const Application = require("../models/Application");
 
 const createSubmission = async(req,res)=>{
     try{
@@ -10,10 +11,50 @@ const createSubmission = async(req,res)=>{
             report
         } = req.body;
 
+        const dayNumber = Number(day);
+
+        const application = await Application.findOne({
+            userId
+        });
+
+        if(!application){
+            return res.status(400).json({
+                success:false,
+                message:"Application not found"
+            });
+        }
+
+        const internshipStart = 
+            new Date(application.startDate);
+
+        const today = new Date(); 
+        
+        const diffDays = Math.floor(
+            (today-internshipStart)
+            /
+            (1000*60*60*24)
+        );
+
+        const allowedDay = diffDays + 1;
+
+        if(allowedDay<1){
+            return res.status(400).json({
+                success:false,
+                message:"Internship has not started yet"
+            });
+        }
+
+        if(dayNumber !== allowedDay){
+            return res.status(400).json({
+                success:false,
+                message:`Today you can only submit Day ${allowedDay}`
+            });
+        }
+
         const existingSubmission = 
                     await DailySubmission.findOne({
                         userId,
-                        day
+                        day:dayNumber
         });
 
         if(existingSubmission){
