@@ -245,7 +245,11 @@ function StudentDashboard(){
         currentDay = diffDays+1;
     }
 
-    const nextDay = submissions.length + 1;
+    const nextDay = currentDay;
+    const todaySubmitted = submissions.some(
+        submission => submission.day === currentDay
+    );
+
     const pendingDays = [];
     for(let day=1;day<=10;day++){
 
@@ -255,6 +259,18 @@ function StudentDashboard(){
          
         if(!completed){
             pendingDays.push(day);
+        }
+    }
+
+    const missedDays = [];
+    for(let day=1;day<currentDay;day++){
+
+        const submitted = submissions.some(
+            submission => submission.day === day
+        );
+
+        if(!submitted){
+            missedDays.push(day);
         }
     }
 
@@ -354,6 +370,34 @@ function StudentDashboard(){
             </a>
             </div>
         ))}
+
+         <div>
+            <h3 className="text-3xl font-bold mt-12 mb-6 text-red-600">
+                ❌Missed Days
+            </h3>
+
+            <div className="mb-8">
+                {
+                    missedDays.map(day=>(
+                        <div
+                           key={day}
+                           className="
+                            bg-red-100
+                            text-red-700
+                            p-3
+                            rounded-lg
+                            mb-2
+                           "
+                        >
+                            Day{day}Missed 
+                         </div>   
+                    ))
+                }
+
+            </div>
+
+         </div>
+
         </div>
 
         <h3 className="text-3xl font-bold mt-12 mb-6 text-gray-800">
@@ -432,7 +476,9 @@ function StudentDashboard(){
                          </button>
                     </>     
                 ):(
-                    
+
+                 !todaySubmitted && (    
+
                 <button
                 onClick={() =>
                     navigate(`/submit-day/${nextDay}`)
@@ -452,8 +498,9 @@ function StudentDashboard(){
                     text-lg
                 "
                 >
-                + Submit Day {nextDay}
+                + Submit Day {currentDay}
                 </button>
+            )
             )}
         
             </div>
