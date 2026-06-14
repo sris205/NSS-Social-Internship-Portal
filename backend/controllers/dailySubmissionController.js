@@ -5,6 +5,8 @@ const Application = require("../models/Application");
 
 const createSubmission = async(req,res)=>{
     try{
+
+          console.log("CREATE SUBMISSION HIT");
         const{
             userId,
             day,
@@ -18,6 +20,7 @@ const createSubmission = async(req,res)=>{
         });
 
         if(!application){
+             console.log("Application not found");
             return res.status(400).json({
                 success:false,
                 message:"Application not found"
@@ -37,7 +40,16 @@ const createSubmission = async(req,res)=>{
 
         const allowedDay = diffDays + 1;
 
+        console.log("================================");
+        console.log("User ID:", userId);
+        console.log("Submitted Day:", dayNumber);
+        console.log("Start Date:", application.startDate);
+        console.log("Today:", today);
+        console.log("Allowed Day:", allowedDay);
+        console.log("================================");
+
         if(allowedDay<1){
+             console.log("Internship has not started yet");
             return res.status(400).json({
                 success:false,
                 message:"Internship has not started yet"
@@ -45,6 +57,7 @@ const createSubmission = async(req,res)=>{
         }
 
         if(dayNumber !== allowedDay){
+             console.log("Wrong day submitted");
             return res.status(400).json({
                 success:false,
                 message:`Today you can only submit Day ${allowedDay}`
@@ -58,6 +71,7 @@ const createSubmission = async(req,res)=>{
         });
 
         if(existingSubmission){
+             console.log("Day already submitted");
             return res.status(400).json({
                 success:false,
                 message:"Day already submitted"
@@ -92,7 +106,7 @@ const createSubmission = async(req,res)=>{
 
         const submission = await DailySubmission.create({
                    userId,
-                   day,
+                   day:dayNumber,
                    photo:photoUrl,
                    report
         });
