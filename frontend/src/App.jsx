@@ -12,6 +12,7 @@ import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import ProfilePage from "./pages/ProfilePage";
 import DailySubmission from "./pages/DailySubmission";
 import Application from "./pages/Application";
+import ProfileView from "./pages/ProfileView";
 
 function App() {
   
@@ -69,6 +70,11 @@ function App() {
          path="/apply"
          element={<Application/>}   
         /> 
+
+      <Route
+         path="/profile-view" 
+         element={<ProfileView/>} 
+       />  
           
     </Routes>
     </BrowserRouter>

@@ -12,6 +12,7 @@ function StudentDashboard(){
     const[applicationStatus, setApplicationStatus] = useState("");
     const[submissions,setSubmissions] = useState([]);
     const[startDate, setStartDate] = useState(null);
+    const[profile,setProfile] = useState(null);
 
     const checkProfile = async()=>{
         try{
@@ -77,6 +78,22 @@ function StudentDashboard(){
                 setSubmissions(
                     response.data.submissions
                 );
+            }
+
+        }catch(error){
+            console.log(error);
+        }
+    };
+
+    const fetchProfile = async()=>{
+        try{
+
+            const response = await axios.get(
+                `http://localhost:5000/api/profile/${user._id}`
+            );
+
+            if(response.data.success){
+                setProfile(response.data.profile);
             }
 
         }catch(error){
@@ -212,6 +229,7 @@ function StudentDashboard(){
         checkProfile();
         checkApplication();
         fetchSubmissions();
+        fetchProfile();
     }, []);
 
     const navigate = useNavigate();
@@ -295,6 +313,27 @@ function StudentDashboard(){
         </div>
 
         <div className="bg-white p-8 rounded-2xl shadow-xl mb-8">
+            <div className="flex justify-end">
+                <button
+                   onClick={()=>
+                    navigate("/profile-view")
+                   }
+                   className="
+                   w-14
+                   h-14
+                   rounded-full
+                   bg-blue-600
+                   text-white
+                   text-2xl
+                   font-bold
+                   flex
+                   items-center
+                   justify-center
+                   "
+                  >
+                     👤
+                    </button> 
+                </div>    
         <h1 className="text-4xl font-bold text-blue-600">
             Welcome {user?.name}
         </h1>
