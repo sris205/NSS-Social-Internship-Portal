@@ -5,6 +5,12 @@ function AdminDashboard(){
 
     const[applications, setApplications] = useState([]);
     const[submissions, setSubmissions] = useState([]);
+    const[stats,setStats] = useState({
+        totalStudents:0,
+        approvedStudents:0,
+        totalReports:0,
+        pendingReports:0
+    });
 
     const groupedSubmissions = submissions.reduce(
         (acc, submission) => {
@@ -36,7 +42,22 @@ function AdminDashboard(){
                 setApplications(
                     response.data.applications
                 );
+
+                const totalStudents = 
+                   response.data.applications.length;
+
+                const approvedStudents = 
+                   response.data.applications.filter(
+                    app => app.status === "approved"
+                   ).length;
+
+                setStats(prev => ({
+                    ...prev,
+                    totalStudents,
+                    approvedStudents
+                })) ;  
             }
+
         }catch(error){
             console.log(error);
             
@@ -100,6 +121,20 @@ function AdminDashboard(){
                 setSubmissions(
                     response.data.submissions
                 );
+
+                const totalReports = 
+                   response.data.submissions.length;
+                
+                const pendingReports = 
+                  response.data.submissions.filter(
+                    submission => submission.status === "pending"
+                  ).length;
+                  
+                setStats(prev => ({
+                    ...prev,
+                    totalReports,
+                    pendingReports
+                }));  
             }
 
         }catch(error){
@@ -125,6 +160,54 @@ function AdminDashboard(){
             <p className="text-purple-100 mt-2 text-lg">
                 Manage Applications and Daily Reports
             </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 my-8">
+
+                {/* Total Students */}
+                <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition">
+                    <h3 className="text-gray-500 text-lg font-semibold">
+                        👨‍🎓 Total Students
+                    </h3>
+
+                    <p className="text-4xl font-bold text-blue-600 mt-3">
+                        {stats.totalStudents}
+                    </p>
+                </div>
+
+                {/* Approved Students */}
+                <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition">
+                    <h3 className="text-gray-500 text-lg font-semibold">
+                        ✅ Approved Students
+                    </h3>
+
+                    <p className="text-4xl font-bold text-green-600 mt-3">
+                        {stats.approvedStudents}
+                    </p>
+                </div>
+
+                {/* Total Reports */}
+                <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition">
+                    <h3 className="text-gray-500 text-lg font-semibold">
+                        📄 Total Reports
+                    </h3>
+
+                    <p className="text-4xl font-bold text-purple-600 mt-3">
+                        {stats.totalReports}
+                    </p>
+                </div>
+
+                {/* Pending Reports */}
+                <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition">
+                    <h3 className="text-gray-500 text-lg font-semibold">
+                        ⏳ Pending Reports
+                    </h3>
+
+                    <p className="text-4xl font-bold text-red-500 mt-3">
+                        {stats.pendingReports}
+                    </p>
+                </div>
+
             </div>
 
             <h2 className="text-3xl font-bold mb-6">
