@@ -6,10 +6,50 @@ function StudentRegister(){
     const[name, setName] = useState("");
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
+    const[errors, setErrors] = useState({
+        name:"",
+        email: "",
+        password: ""
+    });
 
     const handleSubmit = async(e) => {
 
         e.preventDefault();
+
+        setErrors({
+            name:"",
+            email: "",
+            password: ""
+        });
+
+       
+        if(name.trim().length < 3){
+            setErrors(prev => ({
+                ...prev,
+                name: "Name must contain at least 3 characters."
+            }));
+            return;
+        }
+
+    
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if(!emailRegex.test(email)){
+            setErrors(prev => ({
+                ...prev,
+                email: "Please enter a valid email."
+            }));
+            return;
+        }
+
+        
+        if(password.length < 6){
+            setErrors(prev => ({
+                ...prev,
+                password: "Password must be at least 6 characters."
+            }));
+            return;
+        }
 
        try{
         const response = await axios.post(
@@ -21,10 +61,15 @@ function StudentRegister(){
              }
         );
         console.log(response.data);
+        setError("");
         alert("Registration Successful!");
        }catch(error){
         console.log(error);
-        alert("Registration Failed!");
+        setError(
+            error.response?.data?.message||
+            "Registration Failed!"
+        );
+
        }
     };
 
@@ -44,22 +89,74 @@ function StudentRegister(){
                type="text"
                placeholder="Enter Name"
                value={name}
-               onChange={(e)=>setName(e.target.value)}
+               onChange={(e)=>{
+                setName(e.target.value);
+
+                setErrors(prev => ({
+                    ...prev,
+                    name:""
+                }));
+
+            }}
+
                className="w-full border p-3 mb-4 rounded"/>
+
+            {
+                errors.name && (
+                    <p className="text-red-500 text-sm mt-1">
+                        {errors.name}
+                    </p>
+                )
+            }
 
             <input
                type="email"
                placeholder="Enter Email"
                value={email}
-               onChange={(e)=>setEmail(e.target.value)} 
+               onChange={(e)=>{
+                setEmail(e.target.value);
+
+                setErrors(prev=>({
+                    ...prev,
+                    email:""
+                }));
+
+            }} 
+
                className="w-full border p-3 mb-4 rounded"/>
+
+            {
+                errors.email && (
+                    <p className="text-red-500 text-sm mt-1">
+                        {errors.email}
+                    </p>
+                )
+            }
 
             <input
                type="password"
                placeholder="Enter Password"
                value={password}
-               onChange={(e)=>setPassword(e.target.value)} 
+               onChange={(e)=>{
+                setPassword(e.target.value);
+
+                setErrors(prev=>({
+                    ...prev,
+                    password:""
+                }));
+
+            }}
+             
                className="w-full border p-3 mb-4 rounded"/>  
+
+            {
+                errors.password && (
+                    <p className="text-red-500 text-sm mt-1">
+                        {errors.password}
+                    </p>
+                )
+            }
+
 
             <button 
                className="w-full bg-blue-500 text-white p-3 rounded">

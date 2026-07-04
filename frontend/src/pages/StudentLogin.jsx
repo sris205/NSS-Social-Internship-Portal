@@ -7,9 +7,38 @@ function StudentLogin(){
           const navigate = useNavigate();
           const [email, setEmail] = useState("");
           const [password, setPassword] = useState("");
+          const [errors, setErrors] = useState({
+                email: "",
+                password: ""
+            });
 
           const handleSubmit = async(e)=>{
             e.preventDefault();
+
+            setErrors({
+                email: "",
+                password: ""
+            });
+
+            
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailRegex.test(email)) {
+                setErrors(prev => ({
+                    ...prev,
+                    email: "Please enter a valid email address."
+                }));
+                return;
+            }
+
+            
+            if (password.length < 6) {
+                setErrors(prev => ({
+                    ...prev,
+                    password: "Password must be at least 6 characters."
+                }));
+                return;
+            }
 
             try{
                 const response = await axios.post(
@@ -36,12 +65,19 @@ function StudentLogin(){
                     }
 
                 }else{
-                    alert(response.data.message);
+                    setErrors(prev =>({
+                        ...prev,
+                        password:response.data.message
+                    }));
                 }
                 
             }catch(error){
                 console.log(error);
-                alert("Something went wrong!")
+                setErrors(prev => ({
+                    ...prev,
+                    password:"Something went wrong"
+                }));
+               
             }
           };
 
@@ -59,15 +95,47 @@ function StudentLogin(){
                    type="email"
                    placeholder="Enter Email"
                    value={email}
-                   onChange={(e)=>setEmail(e.target.value)}
+                   onChange={(e)=>{
+                    setEmail(e.target.value);
+                     
+                    setErrors(prev=> ({
+                        ...prev,
+                        email:""
+                    }));
+                }}
+
                    className="w-full border p-3 mb-4 rounded"/>
+
+                   {
+                    errors.email && (
+                        <p className="text-red-500 text-sm mb-3">
+                            {errors.email}
+                        </p>
+                    )
+                }
 
                 <input
                    type="password"
                    placeholder="Enter Password"
                    value={password}
-                   onChange={(e)=>setPassword(e.target.value)}
+                   onChange={(e)=>{
+                    setPassword(e.target.value);
+                
+                    setErrors(prev => ({
+                        ...prev,
+                        password:""
+                    }));
+                }}
+
                    className="w-full border p-3 mb-4 rounded"/>
+
+                   {
+                    errors.password && (
+                        <p className="text-red-500 text-sm mb-3">
+                            {errors.password}
+                        </p>
+                    )
+                }
 
                 <button 
                    type="submit"
