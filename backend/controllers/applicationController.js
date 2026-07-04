@@ -1,4 +1,5 @@
 const Application = require("../models/Application");
+const sendEmail = require("../utils/sendEmail");
 
 const createApplication = async(req,res)=>{
     try{
@@ -108,6 +109,23 @@ const approveApplication = async(req,res)=>{
             {
                 new:true
             }
+        );
+
+        await application.populate("userId", "name email");
+
+        await sendEmail(
+            application.userId.email,
+            "NSS Internship Application Approved",
+            `Dear ${application.userId.name},
+
+        Congatulations!
+
+        Your application has been approved.
+
+        You can now log in to the NSS Portal and start submitting your daily reports.
+
+        Regards,
+        NSS MMMUT Gorakhpur`
         );
 
         res.json({
