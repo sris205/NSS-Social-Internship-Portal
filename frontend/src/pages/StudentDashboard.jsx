@@ -112,51 +112,44 @@ function StudentDashboard(){
         });
     };
 
-    const generateCertificate = ()=>{
+  const generateCertificate = async () => {
 
-        const doc = new jsPDF();
+    try {
 
-        doc.setFontSize(24);
-        doc.text("National Service Scheme",35, 30);
-
-        doc.setFontSize(20);
-        doc.text("CERTIFICATE OF COMPLETION", 30, 50);
-
-        doc.setFontSize(22);
-        doc.text(
-            `This is certify that`,
-            70,
-            80
+        const response = await axios.get(
+            `http://localhost:5000/api/certificate/${user._id}`,
+            {
+                responseType: "blob"
+            }
         );
 
-        doc.setFontSize(22);
-        doc.text(
-            user.name.toUpperCase(),
-            60,
-            100
+        const url = window.URL.createObjectURL(
+            new Blob([response.data])
         );
 
-        doc.setFontSize(14);
-        doc.text(
-            "has successfully completed",
-            55,
-            120
+        const link = document.createElement("a");
+
+        link.href = url;
+        link.download = "NSS_Certificate.pdf";
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        document.body.removeChild(link);
+
+    } catch (error) {
+
+        console.log(error);
+
+        alert(
+            error.response?.data?.message ||
+            "Unable to generate certificate"
         );
 
-        doc.text(
-            `Date: ${new Date().toLocaleDateString()}`,
-            20,
-            170
-        );
+    }
 
-        doc.text(
-            "Program Coordinator",
-            130,
-            170
-        );
-
-        doc.save("NSS_Certificate.pdf");
-    };
+};
 
     const generateReport = async()=>{
          

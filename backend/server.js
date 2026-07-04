@@ -11,7 +11,7 @@ const applicationRoutes =
 const DailySubmission = require("./models/DailySubmission");
 const dailySubmissionRoutes =
     require("./routes/dailySubmissionRoute");
-
+const certificateRoute = require("./routes/certificateRoute");
 
 const app = express();
 
@@ -46,6 +46,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/profile",profileRoutes);
 app.use("/api/application",applicationRoutes);
 app.use("/api/submission",dailySubmissionRoutes);
+app.use("/api/certificate", certificateRoute);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

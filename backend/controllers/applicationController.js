@@ -45,6 +45,7 @@ const getApplication = async(req,res)=>{
     try{
         const{ userId } = req.params;
         const application = await Application.findOne({userId});
+           
 
         if(!application){
             return res.json({

@@ -235,7 +235,7 @@ function AdminDashboard(){
                 </h3>
 
                 <p className="text-gray-600 break-all">
-                    User ID:
+                       👤 UserId:
                 </p>
 
                 <p className="text-sm text-gray-500 mb-4">

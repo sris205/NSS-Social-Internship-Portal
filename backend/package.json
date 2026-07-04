@@ -18,6 +18,7 @@
     "express": "^5.2.1",
     "mongoose": "^9.6.2",
     "multer": "^2.1.1",
+    "pdf-lib": "^1.17.1",
     "streamifier": "^0.1.1"
   },
   "devDependencies": {
