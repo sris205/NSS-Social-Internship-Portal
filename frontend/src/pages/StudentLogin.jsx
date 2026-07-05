@@ -32,10 +32,10 @@ function StudentLogin(){
             }
 
             
-            if (password.length < 6) {
+            if (password.length < 3) {
                 setErrors(prev => ({
                     ...prev,
-                    password: "Password must be at least 6 characters."
+                    password: "Password must be at least 3 characters."
                 }));
                 return;
             }
