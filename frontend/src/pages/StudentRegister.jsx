@@ -61,11 +61,11 @@ function StudentRegister(){
              }
         );
         console.log(response.data);
-        setError("");
+        setErrors("");
         alert("Registration Successful!");
        }catch(error){
         console.log(error);
-        setError(
+        setErrors(
             error.response?.data?.message||
             "Registration Failed!"
         );
