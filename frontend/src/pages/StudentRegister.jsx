@@ -53,7 +53,7 @@ function StudentRegister(){
 
        try{
         const response = await axios.post(
-             "http://localhost:5000/api/auth/register",
+             "https://nss-social-internship-portal-backend.onrender.com/api/auth/register",
              {
                 name,
                 email,

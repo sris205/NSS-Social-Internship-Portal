@@ -34,7 +34,7 @@ function AdminDashboard(){
     const fetchApplications = async()=>{
         try{
             const response = await axios.get(
-                "http://localhost:5000/api/application/all"
+                "https://nss-social-internship-portal-backend.onrender.com/api/application/all"
             );
              console.log(response.data);
              
@@ -68,7 +68,7 @@ function AdminDashboard(){
            try{
 
             const response = await axios.put(
-                `http://localhost:5000/api/application/approve/${applicationId}`
+                `https://nss-social-internship-portal-backend.onrender.com/api/application/approve/${applicationId}`
             );
 
             alert(response.data.message);
@@ -84,7 +84,7 @@ function AdminDashboard(){
         try{
 
             const response = await axios.put(
-                `http://localhost:5000/api/submission/verify/${submissionId}`
+                `https://nss-social-internship-portal-backend.onrender.com/api/submission/verify/${submissionId}`
             );
 
             alert(response.data.message);
@@ -99,7 +99,7 @@ function AdminDashboard(){
         try{
 
             const response = await axios.put(
-                `http://localhost:5000/api/submission/notVerify/${submissionId}`
+                `https://nss-social-internship-portal-backend.onrender.com/api/submission/notVerify/${submissionId}`
             );
 
             alert(response.data.message);
@@ -114,7 +114,7 @@ function AdminDashboard(){
         try{
 
             const response = await axios.get(
-                "http://localhost:5000/api/submission/all"
+                "https://nss-social-internship-portal-backend.onrender.com/api/submission/all"
             );
 
             if(response.data.success){

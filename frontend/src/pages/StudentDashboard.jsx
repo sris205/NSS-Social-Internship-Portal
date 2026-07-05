@@ -21,7 +21,7 @@ function StudentDashboard(){
             );
 
             const response = await axios.get(
-                `http://localhost:5000/api/profile/${user._id}`
+                `https://nss-social-internship-portal-backend.onrender.com/api/profile/${user._id}`
             );
 
             if(response.data.success){
@@ -41,7 +41,7 @@ function StudentDashboard(){
             );
 
             const response = await axios.get(
-                `http://localhost:5000/api/application/${user._id}`
+                `https://nss-social-internship-portal-backend.onrender.com/api/application/${user._id}`
             );
 
             if(response.data.success){
@@ -71,7 +71,7 @@ function StudentDashboard(){
             );
 
             const response = await axios.get(
-                `http://localhost:5000/api/submission/${user._id}`
+                `https://nss-social-internship-portal-backend.onrender.com/api/submission/${user._id}`
             );
 
             if(response.data.success){
@@ -89,7 +89,7 @@ function StudentDashboard(){
         try{
 
             const response = await axios.get(
-                `http://localhost:5000/api/profile/${user._id}`
+                `https://nss-social-internship-portal-backend.onrender.com/api/profile/${user._id}`
             );
 
             if(response.data.success){
@@ -117,7 +117,7 @@ function StudentDashboard(){
     try {
 
         const response = await axios.get(
-            `http://localhost:5000/api/certificate/${user._id}`,
+            `https://nss-social-internship-portal-backend.onrender.com/api/certificate/${user._id}`,
             {
                 responseType: "blob"
             }

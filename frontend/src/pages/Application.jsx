@@ -68,7 +68,7 @@ function Application() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/application/create",
+        "https://nss-social-internship-portal-backend.onrender.com/api/application/create",
         {
           userId: user._id,
           ...formData,

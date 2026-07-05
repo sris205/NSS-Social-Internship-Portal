@@ -19,7 +19,7 @@ function ProfileView(){
             );
 
             const response = await axios.get(
-                `http://localhost:5000/api/profile/${user._id}`
+                `https://nss-social-internship-portal-backend.onrender.com/api/profile/${user._id}`
             );
 
             if(response.data.success){

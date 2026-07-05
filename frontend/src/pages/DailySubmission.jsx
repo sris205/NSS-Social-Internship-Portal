@@ -25,7 +25,7 @@ function DailySubmission(){
             formData.append("report",report);
             formData.append("photo",photo);
             const response = await axios.post(
-                "http://localhost:5000/api/submission/create",
+                "https://nss-social-internship-portal-backend.onrender.com/api/submission/create",
                  formData
             );
 

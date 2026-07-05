@@ -74,7 +74,7 @@ function ProfilePage(){
 
         try{
             const response = await axios.post(
-                "http://localhost:5000/api/profile/create",
+                "https://nss-social-internship-portal-backend.onrender.com/api/profile/create",
                 {
                     userId:user._id,
                     college,
