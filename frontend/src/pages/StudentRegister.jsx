@@ -68,12 +68,12 @@ function StudentRegister(){
          console.log("Status:", error.response?.status);
         console.log("Data:", error.response?.data);
         console.log("Full Error:", error);
-    }
-        setErrors(
-            error.response?.data?.message||
+       
+        setErrors(prev => ({
+            ...prev,
+            email:error.response?.data?.message||
             "Registration Failed!"
-        );
-
+        }));
        }
     };
 
