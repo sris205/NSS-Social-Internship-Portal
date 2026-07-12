@@ -65,6 +65,10 @@ function StudentRegister(){
         alert("Registration Successful!");
        }catch(error){
         console.log(error);
+         console.log("Status:", error.response?.status);
+        console.log("Data:", error.response?.data);
+        console.log("Full Error:", error);
+    }
         setErrors(
             error.response?.data?.message||
             "Registration Failed!"
